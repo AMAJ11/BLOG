@@ -1,7 +1,7 @@
 <template>
   
-  <div class="home pb-16 pb-xl-0">
-    <v-row v-if="this.lan==0" class="pa-6 px-0">
+  <div class="home pb-16 pt-10 pb-xl-0">
+    <v-row v-if="this.lan==0" class="pa-6 pt-10 px-3">
       <v-col lg="5"
        v-if="this.window !=2"
         style="margin:auto;backdrop-filter: blur(1px);min-height: 500px;display: flex;flex-direction: column;justify-content: center;align-items: flex-start;">
@@ -28,7 +28,7 @@
         style="border:2px solid white;backdrop-filter: blur(7px);text-align: center;padding:10px 25px;border-radius: 15px;margin:auto;display: flex;align-items: center;justify-content: center;" 
         lg="5" md="7" sm="12" cols="12">
         <v-window v-model="window" style="width:100%">
-          <v-window-item :key="0">
+          <v-window-item :value="0">
             <v-card class="mt-0" rounded="2">
               <v-form ref="form" @submit.prevent="submit" style="text-align: center;padding:3%">
                <v-text-field append-icon="mdi-account" :rules="this.usernamerule" v-model="this.firstname"
@@ -53,7 +53,7 @@
           </v-window-item>
 
 
-          <v-window-item :key="1" style="height:auto;">
+          <v-window-item :value="1" style="height:auto;">
             <v-card>
               <v-form ref="form1" @submit.prevent="login" style="padding:6%">
                 <v-text-field append-icon="mdi-email" class="mb-7" :rules="this.emailrule" v-model="this.email"
@@ -66,7 +66,7 @@
           </v-window-item>
 
 
-            <v-window-item key="2" style="margin:auto">
+            <v-window-item :value="2" v-if="this.t" style="margin:auto">
               <v-avatar
              
                 color="grey"
@@ -172,7 +172,7 @@
             </v-window-item>
   
   
-              <v-window-item key="2" style="margin:auto">
+              <v-window-item key="2" v-if="this.t" style="margin:auto">
                 <v-avatar
                
                   color="grey"
@@ -248,14 +248,13 @@
 
 <style scoped>
 .home {
-  
   height: auto;
   background-image: url("../assets/pexels-belle-co-99483-1000444.jpg");
   background-size: cover;
   background-position: center;
   
 }
-@media (max-width:600px) {
+@media (max-width:1000px) {
   .home{
     max-width:99%
   }
@@ -284,7 +283,7 @@ export default {
       gender:'',
       date:null,
       lan:localStorage.getItem("lan"),
-
+      t:false,
       passwordrule: [(Password) => {
         if (Password) {
           if (this.hasTextAndNumbers(Password) && Password && Password.length>=8) {
@@ -385,7 +384,8 @@ export default {
               };
               console.log(obj)
               this.loading = false
-            }, 2000)
+            }, 2000);
+            this.t=true
             this.window=2
           };
           
